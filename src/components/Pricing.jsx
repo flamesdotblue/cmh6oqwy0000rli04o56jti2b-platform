@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Zap, CreditCard, ShieldCheck } from 'lucide-react';
 
-export default function Pricing() {
+export default function Pricing({ onOpenQR, onShareLink, onOpenSandbox, onOpenWizard }) {
   return (
     <section id="pricing" className="relative py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,40 +16,29 @@ export default function Pricing() {
             name="Starter"
             price="₹0"
             period="/mo"
-            features={[
-              'Khata ledger & reminders',
-              'Basic invoicing',
-              '100 customers',
-            ]}
+            features={[ 'Khata ledger & reminders', 'Basic invoicing', '100 customers' ]}
             accent="from-sky-300/50 to-indigo-300/30"
             cta="Start Free"
+            onClick={() => onOpenSandbox({ amount: '0.00', customer: 'Starter Trial', invoice: 'INV-TRIAL' })}
           />
           <PlanCard
             name="Business"
             price="₹499"
             period="/mo"
             recommended
-            features={[
-              'Inventory tracking',
-              'Unlimited customers',
-              'Analytics dashboard',
-              'Priority support',
-            ]}
+            features={[ 'Inventory tracking', 'Unlimited customers', 'Analytics dashboard', 'Priority support' ]}
             accent="from-emerald-300/60 to-teal-300/40"
             cta="Go Business"
+            onClick={() => onOpenWizard()}
           />
           <PlanCard
             name="Payments+"
             price="₹999"
             period="/mo"
-            features={[
-              'UPI payment links & QR',
-              'Auto reconciliation',
-              'Settlement reports',
-              'Compliance toolkit',
-            ]}
+            features={[ 'UPI payment links & QR', 'Auto reconciliation', 'Settlement reports', 'Compliance toolkit' ]}
             accent="from-rose-300/60 to-amber-300/40"
             cta="Enable UPI"
+            onClick={() => onOpenWizard()}
           />
         </div>
 
@@ -66,9 +55,9 @@ export default function Pricing() {
               </div>
             </div>
             <div className="relative mt-5 flex flex-wrap gap-3">
-              <button className="px-4 py-2 rounded-xl bg-gradient-to-br from-teal-300/30 to-cyan-300/20 border border-white/20 hover:border-teal-300/60 hover:shadow-[0_0_26px_rgba(45,212,191,0.45)] transition">Create UPI QR</button>
-              <button className="px-4 py-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/15 transition">Share Payment Link</button>
-              <button className="px-4 py-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/15 transition">Test Sandbox</button>
+              <button className="px-4 py-2 rounded-xl bg-gradient-to-br from-teal-300/30 to-cyan-300/20 border border-white/20 hover:border-teal-300/60 hover:shadow-[0_0_26px_rgba(45,212,191,0.45)] transition" onClick={() => onOpenQR({ amount: '250.00', note: 'Invoice #INV-250' })}>Create UPI QR</button>
+              <button className="px-4 py-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/15 transition" onClick={() => onShareLink({ amount: '250.00', customer: 'Demo Retailer', invoice: 'INV-250' })}>Share Payment Link</button>
+              <button className="px-4 py-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/15 transition" onClick={() => onOpenSandbox({ amount: '250.00', customer: 'Demo Retailer', invoice: 'INV-250' })}>Test Sandbox</button>
             </div>
           </motion.div>
 
@@ -95,7 +84,7 @@ export default function Pricing() {
   );
 }
 
-function PlanCard({ name, price, period, features, accent, cta, recommended }) {
+function PlanCard({ name, price, period, features, accent, cta, recommended, onClick }) {
   return (
     <motion.div whileHover={{ y: -8 }} className={`relative rounded-3xl p-6 border bg-white/5 backdrop-blur-xl overflow-hidden ${recommended ? 'border-teal-300/50 shadow-[0_0_50px_rgba(45,212,191,0.3)]' : 'border-white/15'}`}>
       <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${accent} opacity-25`} />
@@ -116,7 +105,7 @@ function PlanCard({ name, price, period, features, accent, cta, recommended }) {
             </li>
           ))}
         </ul>
-        <button className="mt-6 w-full rounded-xl px-4 py-2 bg-white/10 border border-white/20 hover:bg-white/15 hover:border-teal-300/60 hover:shadow-[0_0_30px_rgba(45,212,191,0.4)] transition">
+        <button onClick={onClick} className="mt-6 w-full rounded-xl px-4 py-2 bg-white/10 border border-white/20 hover:bg-white/15 hover:border-teal-300/60 hover:shadow-[0_0_30px_rgba(45,212,191,0.4)] transition">
           {cta}
         </button>
       </div>

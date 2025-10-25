@@ -13,6 +13,7 @@ export default function Navbar() {
         </a>
         <nav className="hidden md:flex items-center gap-6 text-sm text-slate-200">
           <a href="#features" className="hover:text-white transition-colors">Features</a>
+          <a href="#customer-portal" className="hover:text-white transition-colors">Customer Portal</a>
           <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
           <a href="#payments" className="hover:text-white transition-colors">Payments</a>
         </nav>

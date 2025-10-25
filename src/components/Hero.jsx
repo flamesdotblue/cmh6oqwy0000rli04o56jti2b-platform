@@ -1,14 +1,28 @@
-import React from 'react';
-import Spline from '@splinetool/react-spline';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { CreditCard, Wallet } from 'lucide-react';
 
+const LazySpline = React.lazy(() => import('./LazySplineWrapper'));
+
 export default function Hero() {
+  const containerRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } });
+    }, { rootMargin: '200px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <section id="home" className="relative overflow-hidden">
+    <section id="home" className="relative overflow-hidden" ref={containerRef}>
       <div className="relative min-h-[88vh] flex items-center justify-center">
         <div className="absolute inset-0">
-          <Spline scene="https://prod.spline.design/41MGRk-UDPKO-l6W/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+          <Suspense fallback={<PosterFallback />}>{inView ? <LazySpline /> : <PosterFallback />}</Suspense>
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-slate-950/40 to-slate-950/80 pointer-events-none" />
 
@@ -52,14 +66,22 @@ export default function Hero() {
   );
 }
 
+function PosterFallback() {
+  return (
+    <div className="w-full h-full">
+      <div className="w-full h-full bg-[radial-gradient(600px_400px_at_60%_20%,rgba(56,189,248,0.25),transparent),radial-gradient(800px_500px_at_20%_70%,rgba(167,139,250,0.22),transparent)]" />
+    </div>
+  );
+}
+
 function NeonCard({ title, accent }) {
   return (
-    <motion.div whileHover={{ y: -6 }} className={`group relative rounded-2xl p-4 bg-white/10 border border-white/20 backdrop-blur-xl transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]`}> 
+    <div className={`group relative rounded-2xl p-4 bg-white/10 border border-white/20 backdrop-blur-xl transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]`}> 
       <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${accent} opacity-30 group-hover:opacity-50 transition-opacity`} />
       <div className="relative">
         <p className="font-semibold tracking-tight">{title}</p>
         <p className="text-xs text-slate-300/90">Access role-based dashboards</p>
       </div>
-    </motion.div>
+    </div>
   );
 }

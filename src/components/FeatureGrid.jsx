@@ -3,42 +3,12 @@ import { motion } from 'framer-motion';
 import { Wallet, Receipt, Boxes, Users, BarChart3, ShieldCheck } from 'lucide-react';
 
 const features = [
-  {
-    title: 'Smart Khata',
-    desc: 'Record credits, set reminders, auto statements for customers.',
-    icon: Users,
-    glow: 'from-sky-300/50 to-indigo-300/30',
-  },
-  {
-    title: 'Instant Billing',
-    desc: 'GST-ready invoices with shareable links and WhatsApp PDFs.',
-    icon: Receipt,
-    glow: 'from-rose-300/50 to-amber-300/30',
-  },
-  {
-    title: 'Inventory Control',
-    desc: 'Track stock, low-stock alerts, batches and variants.',
-    icon: Boxes,
-    glow: 'from-emerald-300/50 to-lime-300/30',
-  },
-  {
-    title: 'UPI Payments',
-    desc: 'Enable QR and UPI ID payments with auto-reconciliation.',
-    icon: Wallet,
-    glow: 'from-teal-300/50 to-cyan-300/30',
-  },
-  {
-    title: 'Analytics',
-    desc: 'Sales, dues and cashflow dashboards with trends.',
-    icon: BarChart3,
-    glow: 'from-fuchsia-300/50 to-violet-300/30',
-  },
-  {
-    title: 'Secure & Compliant',
-    desc: 'Bank-grade encryption and audit logs.',
-    icon: ShieldCheck,
-    glow: 'from-emerald-300/60 to-teal-300/30',
-  },
+  { title: 'Smart Khata', desc: 'Record credits, set reminders, auto statements for customers.', icon: Users, glow: 'from-sky-300/50 to-indigo-300/30' },
+  { title: 'Instant Billing', desc: 'GST-ready invoices with shareable links and WhatsApp PDFs.', icon: Receipt, glow: 'from-rose-300/50 to-amber-300/30' },
+  { title: 'Inventory Control', desc: 'Track stock, low-stock alerts, batches and variants.', icon: Boxes, glow: 'from-emerald-300/50 to-lime-300/30' },
+  { title: 'UPI Payments', desc: 'Enable QR and UPI ID payments with auto-reconciliation.', icon: Wallet, glow: 'from-teal-300/50 to-cyan-300/30' },
+  { title: 'Analytics', desc: 'Sales, dues and cashflow dashboards with trends.', icon: BarChart3, glow: 'from-fuchsia-300/50 to-violet-300/30' },
+  { title: 'Secure & Compliant', desc: 'Bank-grade encryption and audit logs.', icon: ShieldCheck, glow: 'from-emerald-300/60 to-teal-300/30' },
 ];
 
 export default function FeatureGrid() {
@@ -65,9 +35,7 @@ function FeatureCard({ title, desc, icon: Icon, glow, index }) {
       <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${glow} opacity-20 group-hover:opacity-35 transition-opacity`} />
       <div className="relative flex items-start gap-4">
         <div className="grid place-items-center w-12 h-12 rounded-2xl bg-white/10 border border-white/20 shadow-[0_0_24px_rgba(255,255,255,0.14)]">
-          <motion.div whileHover={{ rotate: 8 }} className="text-white">
-            <Icon className="w-6 h-6" />
-          </motion.div>
+          <Icon className="w-6 h-6" />
         </div>
         <div>
           <h3 className="font-semibold text-lg">{title}</h3>
