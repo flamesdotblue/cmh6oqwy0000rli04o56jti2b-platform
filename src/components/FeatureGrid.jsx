@@ -3,12 +3,42 @@ import { motion } from 'framer-motion';
 import { Wallet, Receipt, Boxes, Users, BarChart3, ShieldCheck } from 'lucide-react';
 
 const features = [
-  { title: 'Smart Khata', desc: 'Record credits, set reminders, auto statements for customers.', icon: Users, glow: 'from-sky-300/50 to-indigo-300/30' },
-  { title: 'Instant Billing', desc: 'GST-ready invoices with shareable links and WhatsApp PDFs.', icon: Receipt, glow: 'from-rose-300/50 to-amber-300/30' },
-  { title: 'Inventory Control', desc: 'Track stock, low-stock alerts, batches and variants.', icon: Boxes, glow: 'from-emerald-300/50 to-lime-300/30' },
-  { title: 'UPI Payments', desc: 'Enable QR and UPI ID payments with auto-reconciliation.', icon: Wallet, glow: 'from-teal-300/50 to-cyan-300/30' },
-  { title: 'Analytics', desc: 'Sales, dues and cashflow dashboards with trends.', icon: BarChart3, glow: 'from-fuchsia-300/50 to-violet-300/30' },
-  { title: 'Secure & Compliant', desc: 'Bank-grade encryption and audit logs.', icon: ShieldCheck, glow: 'from-emerald-300/60 to-teal-300/30' },
+  {
+    title: 'Smart Khata',
+    desc: 'Record credits, set reminders, auto statements for customers.',
+    icon: Users,
+    glow: 'from-sky-300/50 to-indigo-300/30',
+  },
+  {
+    title: 'Instant Billing',
+    desc: 'GST-ready invoices with shareable links and WhatsApp PDFs.',
+    icon: Receipt,
+    glow: 'from-rose-300/50 to-amber-300/30',
+  },
+  {
+    title: 'Inventory Control',
+    desc: 'Track stock, low-stock alerts, batches and variants.',
+    icon: Boxes,
+    glow: 'from-emerald-300/50 to-lime-300/30',
+  },
+  {
+    title: 'UPI Payments',
+    desc: 'Enable QR and UPI ID payments with auto-reconciliation.',
+    icon: Wallet,
+    glow: 'from-teal-300/50 to-cyan-300/30',
+  },
+  {
+    title: 'Analytics',
+    desc: 'Sales, dues and cashflow dashboards with trends.',
+    icon: BarChart3,
+    glow: 'from-fuchsia-300/50 to-violet-300/30',
+  },
+  {
+    title: 'Secure & Compliant',
+    desc: 'Bank-grade encryption and audit logs.',
+    icon: ShieldCheck,
+    glow: 'from-emerald-300/60 to-teal-300/30',
+  },
 ];
 
 export default function FeatureGrid() {

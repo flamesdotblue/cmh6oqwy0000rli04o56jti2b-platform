@@ -2,27 +2,47 @@ import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { CreditCard, Wallet } from 'lucide-react';
 
-const LazySpline = React.lazy(() => import('./LazySplineWrapper'));
+const LazySpline = React.lazy(() => import('@splinetool/react-spline'));
 
-export default function Hero() {
-  const containerRef = useRef(null);
+function useInView(options = { rootMargin: '0px', threshold: 0.1 }) {
+  const ref = useRef(null);
   const [inView, setInView] = useState(false);
-
   useEffect(() => {
-    const el = containerRef.current;
+    const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } });
-    }, { rootMargin: '200px' });
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setInView(true);
+      });
+    }, options);
     io.observe(el);
     return () => io.disconnect();
+  }, [options]);
+  return { ref, inView };
+}
+
+export default function Hero() {
+  const { ref, inView } = useInView({ rootMargin: '200px', threshold: 0.01 });
+  const [reducedMotion, setReducedMotion] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(m.matches);
+    const onChange = () => setReducedMotion(m.matches);
+    m.addEventListener?.('change', onChange);
+    return () => m.removeEventListener?.('change', onChange);
   }, []);
 
   return (
-    <section id="home" className="relative overflow-hidden" ref={containerRef}>
+    <section id="home" className="relative overflow-hidden" ref={ref}>
       <div className="relative min-h-[88vh] flex items-center justify-center">
         <div className="absolute inset-0">
-          <Suspense fallback={<PosterFallback />}>{inView ? <LazySpline /> : <PosterFallback />}</Suspense>
+          {!reducedMotion && inView ? (
+            <Suspense fallback={<PosterFallback />}> 
+              <LazySpline scene="https://prod.spline.design/41MGRk-UDPKO-l6W/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+            </Suspense>
+          ) : (
+            <PosterFallback />
+          )}
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-slate-950/40 to-slate-950/80 pointer-events-none" />
 
@@ -35,7 +55,7 @@ export default function Hero() {
               One indigenous platform for suppliers, shopkeepers and customers. Track dues, send bills, manage stock, and enable instant UPI payments in a glass-morphic interface.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }} className="flex flex-wrap gap-3">
-              <a href="#pricing" className="group relative inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-br from-teal-300/30 to-cyan-300/20 border border-white/20 text-white hover:shadow-[0_0_30px_rgba(45,212,191,0.45)] hover:border-teal-300/60 transition-all">
+              <a href="#payments" className="group relative inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-br from-teal-300/30 to-cyan-300/20 border border-white/20 text-white hover:shadow-[0_0_30px_rgba(45,212,191,0.45)] hover:border-teal-300/60 transition-all">
                 <Wallet className="w-5 h-5 text-teal-200 group-hover:rotate-6 transition-transform" />
                 Activate UPI Payments
               </a>
@@ -68,20 +88,18 @@ export default function Hero() {
 
 function PosterFallback() {
   return (
-    <div className="w-full h-full">
-      <div className="w-full h-full bg-[radial-gradient(600px_400px_at_60%_20%,rgba(56,189,248,0.25),transparent),radial-gradient(800px_500px_at_20%_70%,rgba(167,139,250,0.22),transparent)]" />
-    </div>
+    <div className="w-full h-full bg-[radial-gradient(60%_60%_at_50%_40%,rgba(56,189,248,0.2),transparent),radial-gradient(50%_50%_at_80%_20%,rgba(167,139,250,0.18),transparent),radial-gradient(40%_40%_at_20%_80%,rgba(52,211,153,0.16),transparent)]" />
   );
 }
 
 function NeonCard({ title, accent }) {
   return (
-    <div className={`group relative rounded-2xl p-4 bg-white/10 border border-white/20 backdrop-blur-xl transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]`}> 
+    <motion.div whileHover={{ y: -6 }} className={`group relative rounded-2xl p-4 bg-white/10 border border-white/20 backdrop-blur-xl transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]`}>
       <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${accent} opacity-30 group-hover:opacity-50 transition-opacity`} />
       <div className="relative">
         <p className="font-semibold tracking-tight">{title}</p>
         <p className="text-xs text-slate-300/90">Access role-based dashboards</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
